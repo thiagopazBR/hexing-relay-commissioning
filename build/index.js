@@ -1,30 +1,35 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const path = __importStar(require("path"));
-console.log(path.basename(__dirname));
-let a = 'teste';
-console.log(a);
+require("dotenv/config");
+// import * as path from 'path'
+// const script_dir: string = path.dirname(__filename)
+// const target_path: string = '/usr/share/zabbix/modules/files/content/' // Dir where is commissioning_report.csv files
+// Check if it has datetime argument
+// import * as moment from moment;
+const dateValidations_1 = __importDefault(require("./classes/dateValidations"));
+const Mysql_1 = require("./classes/Mysql");
+const date_validation = new dateValidations_1.default('2022-08-01', '2022-08-03');
+const start_date = date_validation.get_start_date();
+const end_date = date_validation.get_end_date();
+if (!date_validation.check_date_format(start_date) ||
+    !date_validation.check_date_format(end_date)) {
+    console.log('Error: Incorrect date format, should be YYYY-MM-DD');
+    process.exit(1);
+}
+if (date_validation.check_if_date_is_greater_than(start_date, end_date)) {
+    console.log('Error: Incorrect date. Start date cannot be greater than end date');
+    process.exit(1);
+}
+const date_period = date_validation.getRange(start_date, end_date);
+for (const dp of date_period) {
+    console.log(dp);
+}
+const mysql = new Mysql_1.Mysql();
+(async () => {
+    const relays_name = await mysql.get_glpi_data();
+    console.log(relays_name);
+})();
 //# sourceMappingURL=index.js.map

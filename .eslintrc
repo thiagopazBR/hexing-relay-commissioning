@@ -1,7 +1,7 @@
 {
   "root": true,
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "no-loops", "prettier"],
+  "plugins": ["@typescript-eslint", "prettier"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
@@ -11,12 +11,7 @@
   "rules": {
     "curly": ["error", "multi"],
     "no-console": "off",
-    "no-loops/no-loops": "error",
-    "prettier/prettier": [
-      "error",
-      { "endOfLine": "auto" },
-      { "usePrettierrc": true }
-    ],
+    "prettier/prettier": ["error", { "endOfLine": "auto" }, { "usePrettierrc": true }],
     "sort-keys": "warn"
   }
 }

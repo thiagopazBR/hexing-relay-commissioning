@@ -36,5 +36,10 @@
   },
   "lint-staged": {
     "*.ts": "eslint --cache --fix"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "moment": "^2.29.3",
+    "mysql2": "^2.3.3"
   }
 }

@@ -24,9 +24,8 @@ if (date_validation.check_if_date_is_greater_than(start_date, end_date)) {
     process.exit(1);
 }
 const date_period = date_validation.getRange(start_date, end_date);
-for (const dp of date_period) {
+for (const dp of date_period)
     console.log(dp);
-}
 const mysql = new Mysql_1.Mysql();
 (async () => {
     const relays_name = await mysql.get_glpi_data();
